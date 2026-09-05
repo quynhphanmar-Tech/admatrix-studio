@@ -3,25 +3,187 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --tiktok-pink: #fe2c55;
+  --neon-cyan: #22d3ee;
+  --bg-primary: #0a0c14;
+  --bg-card: #111827;
+  --bg-card-hover: #1a2035;
+  --border-subtle: rgba(255, 255, 255, 0.08);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* Glass morphism card */
+.glass-card {
+  @apply bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] rounded-2xl;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.glass-card-hover {
+  @apply glass-card transition-all duration-300;
+}
+.glass-card-hover:hover {
+  @apply bg-white/[0.07] border-white/[0.15] shadow-lg shadow-black/20;
+}
+
+/* Step indicator */
+.step-active {
+  @apply bg-gradient-to-r from-[var(--tiktok-pink)] to-pink-600 text-white shadow-lg shadow-pink-500/25;
+}
+.step-done {
+  @apply bg-emerald-500/20 text-emerald-400 border border-emerald-500/30;
+}
+.step-pending {
+  @apply bg-white/[0.04] text-slate-500 border border-white/[0.06];
+}
+
+/* Tag chips */
+.tag-chip {
+  @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold
+         bg-white/[0.06] text-slate-300 border border-white/[0.08]
+         transition-all duration-200;
+}
+.tag-chip:hover {
+  @apply bg-white/[0.1] border-white/[0.15];
+}
+.tag-chip-active {
+  @apply bg-cyan-500/20 text-cyan-300 border-cyan-500/40;
+}
+
+/* Footage grid */
+.footage-card {
+  @apply relative rounded-xl overflow-hidden border border-white/[0.06] 
+         transition-all duration-300 cursor-pointer;
+}
+.footage-card:hover {
+  @apply border-cyan-400/40 shadow-lg shadow-cyan-500/10 scale-[1.02];
+}
+
+/* Script card in matrix grid */
+.script-card {
+  @apply glass-card p-0 overflow-hidden transition-all duration-300;
+}
+.script-card:hover {
+  @apply border-white/[0.2] shadow-xl shadow-black/30 -translate-y-1;
+}
+
+/* CTA button */
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 
+         bg-gradient-to-r from-[var(--tiktok-pink)] to-pink-600
+         text-white font-bold rounded-2xl
+         shadow-lg shadow-pink-500/25
+         transition-all duration-300
+         hover:shadow-xl hover:shadow-pink-500/35 hover:-translate-y-0.5
+         active:scale-[0.98];
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-3
+         bg-white/[0.06] text-slate-200 font-semibold rounded-xl
+         border border-white/[0.1]
+         transition-all duration-200
+         hover:bg-white/[0.1] hover:border-white/[0.2];
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-1.5 px-3 py-2
+         text-slate-400 font-medium rounded-lg text-sm
+         transition-colors duration-200
+         hover:text-white hover:bg-white/[0.06];
+}
+
+/* Phase timeline bar */
+.phase-bar {
+  @apply h-8 rounded-lg flex items-center justify-center text-[10px] font-bold
+         text-white/90 truncate px-2 transition-all duration-200;
+}
+
+/* Input fields */
+.input-field {
+  @apply w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08]
+         text-white placeholder-slate-500 text-sm
+         focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25
+         transition-all duration-200;
+}
+
+/* Upload dropzone */
+.dropzone {
+  @apply border-2 border-dashed border-white/[0.12] rounded-2xl p-8
+         flex flex-col items-center justify-center gap-3
+         transition-all duration-300 cursor-pointer;
+}
+.dropzone:hover {
+  @apply border-cyan-400/40 bg-cyan-500/[0.03];
+}
+.dropzone-active {
+  @apply border-cyan-400 bg-cyan-500/[0.08] scale-[1.01];
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(254, 44, 85, 0.4); }
+  50% { box-shadow: 0 0 20px 4px rgba(254, 44, 85, 0.15); }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+.animate-scaleIn {
+  animation: scaleIn 0.3s ease-out forwards;
+}
+.animate-slideInRight {
+  animation: slideInRight 0.4s ease-out forwards;
+}
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Staggered children */
+.stagger-children > * {
+  opacity: 0;
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 60ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 120ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 180ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 240ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 360ms; }
+.stagger-children > *:nth-child(8) { animation-delay: 420ms; }
+.stagger-children > *:nth-child(9) { animation-delay: 480ms; }
+.stagger-children > *:nth-child(10) { animation-delay: 540ms; }
+.stagger-children > *:nth-child(11) { animation-delay: 600ms; }
+.stagger-children > *:nth-child(12) { animation-delay: 660ms; }
+
+/* Modal overlay */
+.modal-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center
+         bg-black/70 backdrop-blur-sm;
 }
